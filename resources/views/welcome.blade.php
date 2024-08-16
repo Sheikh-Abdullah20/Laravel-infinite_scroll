@@ -62,10 +62,7 @@
         type: 'get',
         data: {page:page},
         dataType: 'json',
-        beforeSend: function () {
-            $('#loader').show();
-            $('#loader_con').show();
-        },
+      
         success: function(response){
             console.log(page);
             console.log(response);
