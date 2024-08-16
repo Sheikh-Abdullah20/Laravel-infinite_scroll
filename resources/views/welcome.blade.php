@@ -21,7 +21,16 @@
                 <p>{{ $blog->description }}</p>
             </div>
             @endforeach
-           
+
+            {{-- Loader --}}
+            <div class="row">
+                <div class="col-md-12 d-flex justify-content-center mb-5" style="z-index: 9999" id="loader_con">
+                    <div class="spinner-border" id="loader" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            {{-- Loader End--}}
         </div>
     </div>
 </body>
@@ -53,12 +62,27 @@
         type: 'get',
         data: {page:page},
         dataType: 'json',
+        beforeSend: function () {
+            $('#loader').show();
+            $('#loader_con').show();
+        },
         success: function(response){
             console.log(page);
             console.log(response);
-            if(response["status"] == true){
-                $('#blogs-container').append(response['html']);
+            if(response["status"] === true){
+                    $('#blogs-container').append(response['html']);
+                    $('#loader').hide();
+                    $('#loader_con').hide();
+             
+            }else{
+                $('#loader').hide();
+                $('#loader_con').hide();
             }
+        },
+        error: function() {
+            // Hide the loader in case of an error
+            $('#loader').hide();
+            $('#loader_con').hide();
         }
     });
     }
